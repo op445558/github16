@@ -540,6 +540,7 @@
                                             房间:258888
                                         </div>
 <!-- 你的内容 + 右侧复制按钮 -->
+<!-- 你的内容 + 右侧复制按钮 -->
 <div style="display: flex; align-items: center; gap: 10px;">
     <div class="name2" id="copyText">
         bc07fef5ebaf9d2e
@@ -557,14 +558,30 @@
 
 <script>
 function copyToClipboard() {
-    // 获取要复制的文本
-    const text = document.getElementById('copyText').innerText.trim();
-    // 复制到剪贴板
-    navigator.clipboard.writeText(text).then(() => {
-        alert('复制成功：' + text);
-    }).catch(err => {
+    try {
+        // 获取要复制的文本
+        const text = document.getElementById('copyText').innerText.trim();
+        
+        // 创建临时input（兼容所有手机/浏览器）
+        const tempInput = document.createElement('input');
+        tempInput.value = text;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        tempInput.setSelectionRange(0, 99999);
+        
+        // 执行复制
+        const successful = document.execCommand('copy');
+        document.body.removeChild(tempInput);
+
+        if (successful) {
+            alert('复制成功：' + text);
+        } else {
+            alert('复制失败，请手动复制');
+        }
+    } catch (err) {
         console.error('复制失败', err);
-    });
+        alert('复制失败，请手动复制');
+    }
 }
 </script>
                                         <div class="link">
